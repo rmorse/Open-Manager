@@ -5,7 +5,7 @@ A free TinyMCE File/Media Manager
 Compatible with TinyMCE 3.x
 
 ## Demo
- - Coming Soon - see [this blog post]() for screenshots
+ - Coming Soon - see [this blog post](http://www.designsandcode.com/261/open-manager-tinymce-file-manager/) for screenshots
 
 ## Setup
  - [Designs & Code Blog - Setup Open Manager plugin with TinyMCE](http://www.designsandcode.com/261/open-manager-tinymce-file-manager/)
