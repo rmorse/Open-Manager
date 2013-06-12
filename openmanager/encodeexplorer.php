@@ -336,7 +336,7 @@ $_CONFIG['log_file'] = "";
 // For example: $_CONFIG['starting_dir'] = "./mysubdir/";
 // Default: $_CONFIG['starting_dir'] = ".";
 //
-$_CONFIG['starting_dir'] = "./uploads/media/";
+$_CONFIG['starting_dir'] = ($mediapath);
 
 //
 // Asukoht serveris. Tavaliselt ei ole vaja siia midagi panna kuna script leiab ise õige asukoha. 
@@ -1960,7 +1960,7 @@ class Location
 		$path2 = array();
 		for($i = 0; $i < count($path1); $i++)
 		{
-			if($path1[$i] == ".." || $path1[$i] == "." || $path1[$i] == "")
+			if($path1[$i] == "." || $path1[$i] == "")
 				continue;
 			$path2[] = $path1[$i];
 		}
