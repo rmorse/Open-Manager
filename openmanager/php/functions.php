@@ -2,13 +2,24 @@
 	//display specific page of gallery - takes a list of filenames & page number to display
 	function display_gallery_page($files_array, $pageno = 1, $prepath = "", $resultspp = 15, $display = true)
 	{
-		$pagination['resultspp'] = $resultspp; //results per page
+		$absolute = false;
+
+        $pagination['resultspp'] = $resultspp; //results per page
 		$pagination['startres'] = 1 + (($pageno-1) * $pagination['resultspp']); //start result
 		$pagination['endres'] = $pagination['startres'] + $pagination['resultspp'] - 1; //end result
 		$pagination['counter'] = 1; //file iterator
 		$pagination['totalres'] = count($files_array); //total number of files/results
 		$pagination['totalpages'] = ceil($pagination['totalres']/$pagination['resultspp']); //total number of pages based on number of results and results per page
-		
+
+
+        if($_GET['d'][0] == '/') $absolute = true;
+
+        if($absolute)   { //if path is absolute..
+            $prepath = '';
+
+        }
+
+
 		$thumbimagepath = $_GET['d']."images/thumbs/";
 		$imagepath = $_GET['d']."images/";
 		
@@ -28,6 +39,10 @@
 			$file_path = $imagepath . $file_name;
 			$rel_file_path = $relimagepath . $file_name;
 			$thumb_file_path = $thumbimagepath . $file_name;
+            if($absolute) {
+                $thumb_file_path = str_replace($_SERVER['DOCUMENT_ROOT'],'',$thumb_file_path);
+                $file_path = str_replace($_SERVER['DOCUMENT_ROOT'],'',$file_path);
+            }
 			
 			if(($pagination['counter']>=$pagination['startres'])&&($pagination['counter']<=$pagination['endres']))
 			{
