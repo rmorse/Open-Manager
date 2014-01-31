@@ -277,7 +277,7 @@
 
 			if (isset($scale) === true)
 			{
-					//$scale = array_filter(explode('*', $scale), 'is_numeric');
+					//$scale = array_filter(explode('*', $scale), 'is_numeric'); 
 
 					if (count($scale) >= 1)
 					{
