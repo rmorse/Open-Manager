@@ -4,7 +4,7 @@ Open Manager
 A free TinyMCE File/Media Manager 
 Compatible with TinyMCE 3.x
 
-**This project has been closed for a number of years**
+_**This project has been closed for a number of years**_
 
 There will no doubt be security issues - **do not use in production**.
 
