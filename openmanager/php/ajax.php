@@ -1,9 +1,19 @@
 <?php
 	include "functions.php";
-	
-	//get files in folder
-	$thumbimagepath = "../".$_GET['d']."images/thumbs/";
-	$imagepath = "../".$_GET['d']."images/";
+
+
+
+
+    $_GET['d'][0] == '/' ? $absolute = true : $absolute = false;
+
+    //get files in folder
+    if($absolute) {
+        $thumbimagepath = $_GET['d']."images/thumbs/";
+        $imagepath = $_GET['d']."images/";
+    } else {
+        $thumbimagepath = "../".$_GET['d']."images/thumbs/";
+        $imagepath = "../".$_GET['d']."images/";
+    }
 	
 	//handle a delete before
 	if(isset($_GET['del']))
@@ -38,6 +48,7 @@
 	{	
 		$file_path = $imagepath . $file_name;
 		$thumb_file_path = $thumbimagepath . $file_name;
+        if($absolute)  $thumb_file_path = str_replace($_SERVER['DOCUMENT_ROOT'],'',$thumb_file_path);
 		//if (is_file($file_path) && $file_name[0] !== '.')
 		if (is_file($file_path) && $file_name[0] !== '.')
 		{

@@ -1,9 +1,11 @@
 <?php
+    //echo $_GET['d'];
 	include "php/functions.php";
 	
 	$mediatype = "";
 	$uploadfolderset = false;
 	$subfoldersset = false;
+    	$absolute = false;
 	
 	if(isset($_GET['type']))
 	{
@@ -13,6 +15,7 @@
 	if(isset($_GET['d']))
 	{
 		$uploadfolder = $_GET['d'];
+        	if($_GET['d'][0] == '/') $absolute = true;
 	}	
 	
 	//get files in folder
@@ -39,6 +42,8 @@
 		{	
 			$file_path = $imagepath . $file_name;
 			$thumb_file_path = $thumbimagepath . $file_name;
+            		if($absolute)  $thumb_file_path = str_replace($_SERVER['DOCUMENT_ROOT'],'',$thumb_file_path);
+
 			//if (is_file($file_path) && $file_name[0] !== '.')
 			if (is_file($file_path) && $file_name[0] !== '.')
 			{

@@ -17,14 +17,20 @@
 	
 	function upload_file()
 	{
+        $absolute = false;
+        if($_POST['uploadfolder'][0] == '/') $absolute = true;
+
 		//get upload folder
 		$uploadfolder = "";
 		if(isset($_POST['uploadfolder']))
 		{
-			$uploadfolder = "../".$_POST['uploadfolder'];
+			if($absolute) $uploadfolder = $_POST['uploadfolder'];
+            else $uploadfolder = "../".$_POST['uploadfolder'];
+
 			$reluploadfolder = $_POST['uploadfolder'];
 		}
-				
+
+
 		if((file_exists($uploadfolder))&&($uploadfolder!=""))
 		{
 			//check the that a file has been uploaded by checking for name
@@ -38,7 +44,7 @@
 				$tname = $_FILES['userfile']['name'];
 				
 				//do some crude cleaning/sanitizing of the name (needs to be improved)
-				$name = strtr($tname, 'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ', 'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
+				$name = strtr($tname, 'Ã€ÃÃ‚ÃƒÃ„Ã…Ã‡ÃˆÃ‰ÃŠÃ‹ÃŒÃÃŽÃÃ’Ã“Ã”Ã•Ã–Ã™ÃšÃ›ÃœÃÃ Ã¡Ã¢Ã£Ã¤Ã¥Ã§Ã¨Ã©ÃªÃ«Ã¬Ã­Ã®Ã¯Ã°Ã²Ã³Ã´ÃµÃ¶Ã¹ÃºÃ»Ã¼Ã½Ã¿', 'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
 				$name = preg_replace('/\s+/', '-', $name); //remove spaces
 				
 				
@@ -59,7 +65,7 @@
 					if(!file_exists($uploadfolder.$mediafolder))
 					{
 						//if it doesn't exists try to create it
-						if(!mkdir($uploadfolder.$mediafolder, 0777))
+						if(!mkdir($uploadfolder.$mediafolder, 0755))
 						{
 							//if it can't be created return error about permissions
 							$error = array('error' => 'Please check the correct permissions are set on the upload folder');
@@ -78,7 +84,7 @@
 					if(!file_exists($uploadfolder.$imagesfolder))
 					{
 						//if it doesn't exists try to create it
-						if(!mkdir($uploadfolder.$imagesfolder, 0777))
+						if(!mkdir($uploadfolder.$imagesfolder, 0755))
 						{
 							//if it can't be created return error about permissions
 							$error = array('error' => 'Please check the correct permissions are set on the upload folder');
@@ -87,7 +93,7 @@
 						}
 						
 						//try to create subfolder for thumbnails
-						if(!mkdir($uploadfolder.$imagesfolder."thumbs/", 0777))
+						if(!mkdir($uploadfolder.$imagesfolder."thumbs/", 0755))
 						{
 							//if it can't be created return error about permissions
 							$error = array('error' => 'Please check the correct permissions are set on the upload folder');
@@ -144,6 +150,12 @@
 						$uploadinfo->destination = $reluploadfolder.$imagesfolder.$filename.".".$fileext;
 						$uploadinfo->mediatype = $mediatype;
 					}
+
+                    if($absolute) {
+                        $uploadinfo->destination = str_replace($_SERVER['DOCUMENT_ROOT'],'',$uploadinfo->destination);
+                        $uploadinfo->thumb_name = str_replace($_SERVER['DOCUMENT_ROOT'],'',$uploadinfo->thumb_name);
+                    }
+
 					echo json_encode(array($uploadinfo));
 				}
 				else
@@ -265,7 +277,7 @@
 
 			if (isset($scale) === true)
 			{
-					//$scale = array_filter(explode('*', $scale), 'is_numeric');
+					//$scale = array_filter(explode('*', $scale), 'is_numeric'); 
 
 					if (count($scale) >= 1)
 					{
